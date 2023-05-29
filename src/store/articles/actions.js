@@ -1,5 +1,5 @@
 export async function fetchArticles({ commit }) {
-  fetch('/api/articles')
+  return fetch('/api/articles')
     .then(res => res.json())
     .then(json => {
       commit('setArticles', json);

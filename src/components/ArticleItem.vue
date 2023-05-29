@@ -1,12 +1,15 @@
 <template>
   <div class="article-item">
-    <img :src="item.imgSrc" />
+    <img
+      :src="item.imgSrc"
+      class="article-item__img"
+    />
     <div class="article-item__title">
       {{ item.title }}
     </div>
-    <p class="article-item__description">
+    <div class="article-item__description">
       {{ item.description }}
-    </p>
+    </div>
   </div>
 </template>
 
@@ -34,6 +37,10 @@ export default {
   height: 295px;
   margin-right: 24px;
   margin-bottom: 24px;
+  &__img {
+    width: 259px;
+    height: 80px;
+  }
   &__title {
     font-weight: 600;
     font-size: 16px;

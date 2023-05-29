@@ -1,5 +1,8 @@
 <template>
   <div class="index-page">
+    <Loader
+      v-if="!isLoaded"
+    />
     <div class="index-page__top">
       <create-button />
       <input
@@ -13,6 +16,7 @@
       <article-item
         v-for="article in articles"
         :item="article"
+        :key="article.id"
       />
     </div>
   </div>
@@ -23,15 +27,23 @@ import { mapGetters, mapActions } from 'vuex';
 
 import CreateButton from '/src/components/CreateButton.vue';
 import ArticleItem from '/src/components/ArticleItem.vue';
+import Loader from '/src/components/Loader.vue';
 
 export default {
   name: 'Index',
   components: {
+    Loader,
     CreateButton,
     ArticleItem,
   },
-  created() {
-    this.fetchArticles();
+  data() {
+    return {
+      isLoaded: false,
+    };
+  },
+  async created() {
+    await this.fetchArticles();
+    this.isLoaded = true;
   },
   computed: {
     ...mapGetters('articles', ['articles']),
