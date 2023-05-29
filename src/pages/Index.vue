@@ -4,7 +4,9 @@
       v-if="!isLoaded"
     />
     <div class="index-page__top">
-      <create-button />
+      <create-button
+        @click="isModalOpened = true"
+      />
       <input
         type="text"
         id="search"
@@ -18,7 +20,17 @@
         :item="article"
         :key="article.id"
       />
+      <div v-for="category in categories">
+        {{ category.title }}
+        <article-item
+          :item="category.nestedArticles"
+        />
+      </div>
     </div>
+    <Modal
+      v-if="isModalOpened"
+      @close="isModalOpened = false"
+    />
   </div>
 </template>
 
@@ -28,10 +40,12 @@ import { mapGetters, mapActions } from 'vuex';
 import CreateButton from '/src/components/CreateButton.vue';
 import ArticleItem from '/src/components/ArticleItem.vue';
 import Loader from '/src/components/Loader.vue';
+import Modal from '/src/components/Modal.vue';
 
 export default {
   name: 'Index',
   components: {
+    Modal,
     Loader,
     CreateButton,
     ArticleItem,
@@ -39,6 +53,7 @@ export default {
   data() {
     return {
       isLoaded: false,
+      isModalOpened: false,
     };
   },
   async created() {
@@ -47,6 +62,7 @@ export default {
   },
   computed: {
     ...mapGetters('articles', ['articles']),
+    ...mapGetters('categories', ['categories']),
   },
   methods: {
     ...mapActions('articles', ['fetchArticles']),

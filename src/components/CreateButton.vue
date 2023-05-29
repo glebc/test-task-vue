@@ -1,5 +1,8 @@
 <template>
-  <button class="create-button">
+  <button 
+    class="create-button"
+    @click="$emit('click')"
+  >
     Создать категорию
     <div>+</div>
   </button>
