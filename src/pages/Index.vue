@@ -3,7 +3,7 @@
     <Loader
       v-if="!isLoaded"
     />
-    <div class="index-page__top">
+    <div class="index-page__top flex">
       <create-button
         @click="isModalOpened = true"
       />
@@ -39,7 +39,10 @@
       v-if="isModalOpened"
       @close="isModalOpened = false"
     />
-    <div class="paginator">
+    <div
+      v-if="isLoaded"
+      class="paginator"
+    >
       <button
         :disabled="currentPage === 1"
         class="paginator__button"
@@ -49,7 +52,7 @@
       </button>
       <button
         v-if="currentPage !== 1"
-        class="paginator__page"
+        class="paginator__page flex"
         @click="currentPage = 1"
       >
         1
@@ -153,7 +156,6 @@ export default {
 .index-page {
   padding: 65px;
   &__top {
-    display: flex;
     margin-bottom: 48px;
     .search-container {
       margin-left: 16px;
@@ -199,13 +201,13 @@ export default {
     &__page {
       width: 34px;
       height: 34px;
-      display: flex;
       align-items: center;
       justify-content: center;
       margin-right: 7px;
       border: 0;
       border-radius: 5px;
       background: #fff;
+      cursor: pointer;
     }
     &__current-page {
       background: #30344612;

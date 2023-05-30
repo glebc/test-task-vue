@@ -1,6 +1,6 @@
 <template>
   <button 
-    class="create-button"
+    class="create-button flex"
     @click="$emit('click')"
   >
     Создать категорию
@@ -19,11 +19,9 @@ export default {
   background: #ED5252;
   color: #FFF;
   padding: 9px 16px 11px;
-  font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   border-radius: 3px;
-  display: flex;
   align-items: center;
   justify-content: center;
   border: none;

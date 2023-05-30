@@ -1,6 +1,6 @@
 <template>
   <div class="modal">
-    <div class="modal__content">
+    <div class="modal__content flex">
       <input 
         v-model="category.title"
         placeholder="Название"
@@ -82,7 +82,6 @@ export default {
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s;
-    display: flex;
     flex-flow: column;
   }
 }

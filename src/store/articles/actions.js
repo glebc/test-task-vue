@@ -6,6 +6,11 @@ export async function fetchArticles({ commit }) {
     });
 }
 
+export function likeArticle({ commit }, id) {
+  commit('likeArticle', id);
+}
+
 export default {
   fetchArticles,
+  likeArticle,
 };
