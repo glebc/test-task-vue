@@ -7,16 +7,24 @@
       <create-button
         @click="isModalOpened = true"
       />
-      <input
-        type="text"
-        id="search"
-        name="search"
-        class="search-input"
-      >
+      <div class="search-container">
+        <input
+          v-model="searchQuery"
+          type="text"
+          id="search"
+          name="search"
+          class="search-container__input"
+          placeholder="Найти статью"
+        >
+        <img 
+          src="src/assets/icons/search.svg"
+          class="search-container__icon"
+        />
+      </div>
     </div>
     <div class="articles-container">
       <article-item
-        v-for="article in articles"
+        v-for="article in filteredData"
         :item="article"
         :key="article.id"
       />
@@ -54,6 +62,7 @@ export default {
     return {
       isLoaded: false,
       isModalOpened: false,
+      searchQuery: '',
     };
   },
   async created() {
@@ -63,6 +72,11 @@ export default {
   computed: {
     ...mapGetters('articles', ['articles']),
     ...mapGetters('categories', ['categories']),
+    filteredData() {
+      return this.articles.filter(item =>
+        item.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    }
   },
   methods: {
     ...mapActions('articles', ['fetchArticles']),
@@ -76,16 +90,31 @@ export default {
   &__top {
     display: flex;
     margin-bottom: 48px;
-    .search-input {
-      border: 1px solid #D9DDE6;
-      border-radius: 4px;
+    .search-container {
       margin-left: 16px;
       flex-grow: 1;
+      position: relative;
+      &__input {
+        border: 1px solid #D9DDE6;
+        border-radius: 4px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        padding-left: 16px;
+      }
+      &__icon {
+        position: absolute;
+        right: 16px;
+        top: 11px;
+      }
     }
   }
   .articles-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 24px;
   }
 }
 </style>

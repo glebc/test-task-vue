@@ -33,13 +33,8 @@ export default {
   padding: 16px;
   border: 1px solid #BFC3D5;
   border-radius: 10px;
-  width: 291px;
-  height: 295px;
-  margin-right: 24px;
-  margin-bottom: 24px;
   &__img {
-    width: 259px;
-    height: 80px;
+    width: 100%;
   }
   &__title {
     font-weight: 600;
@@ -54,6 +49,9 @@ export default {
     color: #6A6E7E;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
   }
 }
 </style>
