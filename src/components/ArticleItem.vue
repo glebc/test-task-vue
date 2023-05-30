@@ -31,7 +31,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'Article',
+  name: 'ArticleItem',
   props: {
     item: {
       type: Object,
@@ -65,6 +65,7 @@ export default {
     border: 0;
     background: #fff;
     padding: 0;
+    cursor: pointer;
   }
   &__likes-count {
     font-size: 12px;

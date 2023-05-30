@@ -29,9 +29,15 @@
         :key="article.id"
       />
       <div v-for="category in categories">
-        {{ category.title }}
+        <div class="articles-container__category-title">
+          {{ category.title }}
+          <span class="articles-container__category-count">
+            ({{ category.nestedArticles.length }})
+          </span>
+        </div>
         <article-item
-          :item="category.nestedArticles"
+          v-for="item in category.nestedArticles"
+          :item="item"
         />
       </div>
     </div>
@@ -117,7 +123,10 @@ export default {
   watch: {
     articles() {
       this.totalItems = this.articles.length;
-    }
+    },
+    isModalOpened(value) {
+      document.body.classList.toggle('overflow-hidden', value);
+    },
   },
   computed: {
     ...mapGetters('articles', ['articles']),
@@ -182,6 +191,17 @@ export default {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 24px;
+    &__category-title {
+      margin-bottom: 16px;
+    }
+    &__category-count {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      color: #A0A6BF;
+      margin-left: 8px;
+      vertical-align: super;
+    }
   }
   .paginator {
     margin-top: 54px;

@@ -1,41 +1,69 @@
 <template>
-  <div class="modal">
+  <form 
+    class="modal"
+    @submit="submit"
+  >
     <div class="modal__content flex">
-      <input 
-        v-model="category.title"
-        placeholder="Название"
-      />
-      <select
-        v-model="category.parentCategory"
-      >
-        <option disabled value="">Родительская категория (необязательно)</option>
-        <option
-          v-for="category in categories"
-          :key="category.title"
+      <div class="flex">
+        <div class="modal__title">
+          Новая категория
+        </div>
+        <input
+          v-model="category.title"
+          placeholder="Название"
+          class="modal__input"
+        />
+        <select
+          v-model="category.parentCategory"
+          class="modal__input"
         >
-          {{ category.title }}
-        </option>
-      </select>
-      <select
-        v-model="category.nestedArticles"
-      >
-        <option disabled value="">Вложенные статьи</option>
-        <option
-          v-for="article in articles"
-          :key="article.id"
-          :value="article"
+          <option disabled value="">Родительская категория (необязательно)</option>
+          <option
+            v-for="category in categories"
+            :key="category.title"
+          >
+            {{ category.title }}
+          </option>
+        </select>
+        <select
+          v-model="nestedArticle"
+          class="modal__input"
+          @change="category.nestedArticles.push(nestedArticle)"
         >
-          {{ article.title }}
-        </option>
-      </select>
-      <button @click="submit">Сохранить</button>
-      <button @click="$emit('close')">Отменить</button>
+          <option disabled value="">Вложенные статьи</option>
+          <option
+            v-for="article in articles"
+            :key="article.id"
+            :value="article"
+          >
+            {{ article.title }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <hr>
+        <div class="modal__action-buttons flex">
+          <button
+            class="button-submit"
+            type="submit"
+          >
+            Сохранить
+          </button>
+          <button
+            class="button-submit"
+            @click="$emit('close')"
+          >
+            Отменить
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
+  </form>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { required } from '@vuelidate/validators';
 
 export default {
   name: 'CategoryModal',
@@ -44,9 +72,16 @@ export default {
       category: {
         title: '',
         parentCategory: '',
-        nestedArticles: []
+        nestedArticles: [],
       },
+      nestedArticle: null,
     };
+  },
+  validations: {
+    category: {
+      title: { required },
+    },
+    nestedArticles: { required },
   },
   computed: {
     ...mapGetters('categories', ['categories']),
@@ -72,17 +107,61 @@ export default {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
+  &__title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: 16px;
+  }
   &__content {
+    justify-content: space-between;
+    width: 826px;
+    height: 690px;
+    border-radius: 10px;
     background-color: #fefefe;
-    margin: 15% auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s;
     flex-flow: column;
+    > .flex {
+      flex-flow: column;
+    }
+  }
+  &__input {
+    border: 1px solid #D9DDE6;
+    border-radius: 4px;
+    height: 46px;
+    color: #A0A6BF;
+    padding-left: 12px;
+    margin-bottom: 16px;
+  }
+  select {
+    appearance: none;
+    background: url(src/assets/icons/chevron_down.svg) no-repeat calc(100% - 12px);
+    padding-right: 12px;
+  }
+  hr {
+    background: #BFC3D5;
+    margin-bottom: 16px;
+  }
+  &__action-buttons {
+    button {
+      flex: 1;
+      width: 376px;
+      height: 44px;
+      border: 0;
+      background: #0A0E2012;
+      border-radius: 5px;
+      cursor: pointer;
+      &:first-child {
+        margin-right: 24px;
+        color: white;
+        background: #ED5252;
+      }
+    }
   }
 }
 </style>
